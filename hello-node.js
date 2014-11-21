@@ -7,6 +7,6 @@ var dirScanCallback = function (error, list) {
 };
 /**
  * Lesson 6.
-    helloModule("D:\\Epam\\BMB\\hello-angular\\src\\", "js", dirScanCallback);
+    helloModule.scanDir("D:\\Epam\\BMB\\hello-angular\\src\\", "js", dirScanCallback);
  */
-    helloModule(process.argv[2], process.argv[3], dirScanCallback);
+    helloModule.scanDir(process.argv[2], process.argv[3], dirScanCallback);

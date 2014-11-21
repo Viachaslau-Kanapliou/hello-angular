@@ -3,16 +3,20 @@
  */
 var path = require("path");
 var fs = require("fs");
-module.exports =  function(dir,extension,callback){
-    fs.readdir(dir, function(err,list){
-        if (err) {
-            return callback(err);
-        }
+var exports = {
+    scanDir: function (dir, extension, callback) {
+        fs.readdir(dir, function (err, list) {
+            if (err) {
+                return callback(err);
+            }
 
-        var scanExtension = "." + extension;
-        list = list.filter(function(file){
-            return scanExtension == path.extname(file);
+            var scanExtension = "." + extension;
+            list = list.filter(function (file) {
+                return scanExtension == path.extname(file);
+            });
+            callback(null, list);
         });
-        callback(null, list);
-    });
+    }
 };
+
+module.exports = exports;
