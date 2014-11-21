@@ -3,6 +3,8 @@
  */
 var path = require("path");
 var fs = require("fs");
+var http = require("http");
+
 var exports = {
     scanDir: function (dir, extension, callback) {
         fs.readdir(dir, function (err, list) {
@@ -16,6 +18,13 @@ var exports = {
             });
             callback(null, list);
         });
+    },
+
+    getURL: function(url, callback, errCallback){
+        http.get(url, function(response){
+            response.setEncoding("utf8");
+            response.on("data",callback);
+        }).on("error",errCallback);
     }
 };
 
