@@ -57,7 +57,7 @@ var getUrlListCallback = function(data){
 
 /**
  * Lesson 11.
- */
+
     var http = require("http");
     var fs = require("fs");
     var server = http.createServer(function(request,response){
@@ -66,3 +66,17 @@ var getUrlListCallback = function(data){
         stream.pipe(response);
     });
     server.listen(process.argv[2]);
+ */
+
+var http = require("http");
+var map = require("through2-map");
+var fs = require("fs");
+
+var server = http.createServer(function(req,resp){
+    if (req.method == "get") return;
+
+    req.pipe(map(function(chunk){
+        return chunk.toString().toUpperCase();
+    })).pipe(resp);
+});
+server.listen(process.argv[2]);
