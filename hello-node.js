@@ -45,11 +45,24 @@ var getUrlListCallback = function(data){
 
 /**
  * Lesson 10.
- */
-var net = require("net");
-var strftime = require("strftime");
-var server = net.createServer(function(socktet){
 
-    socktet.end(strftime("%F %H:%M",new Date()));
-});
-server.listen(process.argv[2]);
+    var net = require("net");
+    var strftime = require("strftime");
+    var server = net.createServer(function(socktet){
+
+        socktet.end(strftime("%F %H:%M",new Date()));
+    });
+    server.listen(process.argv[2]);
+ */
+
+/**
+ * Lesson 11.
+ */
+    var http = require("http");
+    var fs = require("fs");
+    var server = http.createServer(function(request,response){
+        var stream = fs.createReadStream(process.argv[3],{encoding: "utf8", autoClose: true});
+        //var stream = fs.createReadStream("D:\\Epam\\BMB\\hello-angular\\src\\lesson3.in",{encoding: "utf8", autoClose: true});
+        stream.pipe(response);
+    });
+    server.listen(process.argv[2]);
