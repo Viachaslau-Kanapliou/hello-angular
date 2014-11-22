@@ -68,6 +68,10 @@ var getUrlListCallback = function(data){
     server.listen(process.argv[2]);
  */
 
+/**
+ * Lesson 12.
+ *
+
 var http = require("http");
 var map = require("through2-map");
 var fs = require("fs");
@@ -78,5 +82,42 @@ var server = http.createServer(function(req,resp){
     req.pipe(map(function(chunk){
         return chunk.toString().toUpperCase();
     })).pipe(resp);
+});
+server.listen(process.argv[2]);
+ */
+
+/**
+ * Lesson 13/
+  */
+var http = require("http");
+var url = require("url");
+const parsetime = "/api/parsetime";
+const unixtime = "/api/unixtime";
+const iso = "iso";
+
+var server = http.createServer(function(req, resp){
+    resp.writeHead(200, { 'Content-Type': 'application/json' });
+
+    var curl = url.parse(req.url, true);
+    var date = curl.query[iso];
+    if (date && curl.pathname == parsetime){
+        date = new Date(date);
+        date = {
+            hour: date.getHours(),
+            minute: date.getMinutes(),
+            second: date.getSeconds()
+        };
+        resp.write(JSON.stringify(date));
+    }else if (date && curl.pathname == unixtime){
+        date = new Date(date);
+        date = {
+            unixtime:date.getTime()
+        }
+        resp.write(JSON.stringify(date));
+    }else {
+        resp.end();
+        return;
+    }
+    resp.end();
 });
 server.listen(process.argv[2]);
