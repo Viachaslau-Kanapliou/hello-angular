@@ -1,10 +1,10 @@
 /**
  * Created by Kurash on 21.11.2014.
  */
-var path = require("path");
-var fs = require("fs");
-var http = require("http");
-var BufferList = require("bl");
+const path = require("path");
+const fs = require("fs");
+const http = require("http");
+const BufferList = require("bl");
 var exports = {
     scanDir: function (dir, extension, callback) {
         fs.readdir(dir, function (err, list) {
@@ -32,7 +32,26 @@ var exports = {
             response.setEncoding("utf8");
             response.pipe(BufferList(callback))
         }).on("error",errCallback);
+    },
+    getURLListAsStream: function(urllist,callback, errCallback){
+        var result = new Array(urllist.length);
+        var unprocessedCount = urllist.length;
+        urllist.forEach(function(url,index){
+            http.get(url, function(response){
+                response.setEncoding("utf8");
+                response.pipe(new BufferList(function(error,data){
+                    if (error) return errCallback(error);
+                    result[index] = data;
+                    unprocessedCount--;
+                    if (unprocessedCount < 1){
+                        return callback(result);
+                    }
+                }));
+            }).on("error",errCallback);
+        });
+
     }
+
 };
 
 module.exports = exports;

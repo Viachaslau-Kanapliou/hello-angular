@@ -12,6 +12,12 @@ var getUrlCallBack = function(error, data){
     console.log(data.length);
     console.log(data.toString());
 }
+
+var getUrlListCallback = function(data){
+    data.forEach(function(site){
+       console.log(site.toString());
+    });
+}
 /**
  * Lesson 6.
     helloModule.scanDir("D:\\Epam\\BMB\\hello-angular\\src\\", "js", dirScanCallback);
@@ -28,5 +34,12 @@ var getUrlCallBack = function(error, data){
 /**
  * Lesson 8.
  * helloModule.getURLAsStream("http://ya.ru",getUrlCallBack,console.error);
+ * helloModule.getURLAsStream(process.argv[2],getUrlCallBack,console.error);
  */
-    helloModule.getURLAsStream(process.argv[2],getUrlCallBack,console.error);
+
+/**
+ * Lesson 9.
+ * helloModule.getURLListAsStream(["http://ya.ru","http://eu.blizzard.com/ru-ru/","http://www.google.by"],getUrlListCallback,console.error);
+ */
+
+    helloModule.getURLListAsStream([process.argv[2],process.argv[3],process.argv[4]],getUrlListCallback,console.error);
