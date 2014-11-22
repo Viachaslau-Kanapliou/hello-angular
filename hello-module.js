@@ -4,7 +4,7 @@
 var path = require("path");
 var fs = require("fs");
 var http = require("http");
-
+var BufferList = require("bl");
 var exports = {
     scanDir: function (dir, extension, callback) {
         fs.readdir(dir, function (err, list) {
@@ -24,6 +24,13 @@ var exports = {
         http.get(url, function(response){
             response.setEncoding("utf8");
             response.on("data",callback);
+        }).on("error",errCallback);
+    },
+
+    getURLAsStream: function(url, callback, errCallback){
+        http.get(url, function(response){
+            response.setEncoding("utf8");
+            response.pipe(BufferList(callback))
         }).on("error",errCallback);
     }
 };
