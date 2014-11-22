@@ -40,6 +40,16 @@ var getUrlListCallback = function(data){
 /**
  * Lesson 9.
  * helloModule.getURLListAsStream(["http://ya.ru","http://eu.blizzard.com/ru-ru/","http://www.google.by"],getUrlListCallback,console.error);
+ * helloModule.getURLListAsStream([process.argv[2],process.argv[3],process.argv[4]],getUrlListCallback,console.error);
  */
 
-    helloModule.getURLListAsStream([process.argv[2],process.argv[3],process.argv[4]],getUrlListCallback,console.error);
+/**
+ * Lesson 10.
+ */
+var net = require("net");
+var strftime = require("strftime");
+var server = net.createServer(function(socktet){
+
+    socktet.end(strftime("%F %H:%M",new Date()));
+});
+server.listen(process.argv[2]);
